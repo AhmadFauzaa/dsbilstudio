@@ -1,0 +1,370 @@
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSBIL Studio | Ruang Kreatif Buku & Digital</title>
+     <link rel="icon" type="image/png" href="favicon.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide-react/0.263.1/lucide-react.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            cursor: none;
+            overflow-x: hidden;
+            background-color: #ffffff;
+        }
+
+        /* Custom Cursor */
+        #cursor {
+            width: 20px;
+            height: 20px;
+            background: #000;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+            transition: transform 0.1s ease;
+        }
+
+        #cursor-follower {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #000;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transition: transform 0.15s ease, width 0.3s, height 0.3s;
+        }
+
+        /* Page Transitions */
+        .page-content {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .page-content.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Hover Effects */
+        .nav-link {
+            position: relative;
+            overflow: hidden;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #000;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+        }
+
+        /* Animated Background Decor */
+        .blob {
+            position: fixed;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(0,0,0,0.03) 0%, rgba(255,255,255,0) 70%);
+            border-radius: 50%;
+            z-index: -1;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="text-slate-900">
+
+    <!-- Background Ornaments -->
+    <div class="blob" id="blob-1" style="top: -10%; left: -10%;"></div>
+    <div class="blob" id="blob-2" style="bottom: -10%; right: -10%;"></div>
+
+    <!-- Custom Cursor -->
+    <div id="cursor"></div>
+    <div id="cursor-follower"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 px-8 py-6 flex justify-between items-center bg-white/80 backdrop-blur-md border-b border-slate-100">
+        <div class="text-2xl font-extrabold tracking-tighter">
+            DSBIL<span class="text-slate-400">STUDIO</span>
+        </div>
+        <div class="hidden md:flex space-x-8 font-medium text-sm uppercase tracking-widest">
+            <a href="javascript:void(0)" onclick="navigateTo('home')" class="nav-link">Home</a>
+            <a href="javascript:void(0)" onclick="navigateTo('about')" class="nav-link">About</a>
+            <a href="javascript:void(0)" onclick="navigateTo('product')" class="nav-link">Products</a>
+            <a href="javascript:void(0)" onclick="navigateTo('team')" class="nav-link">Team</a>
+            <a href="javascript:void(0)" onclick="navigateTo('contact')" class="nav-link">Contact</a>
+        </div>
+        <button class="bg-black text-white px-6 py-2 rounded-full text-sm font-bold hover:bg-slate-800 transition-colors">
+            Get Started
+        </button>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="pt-32 min-h-screen">
+        
+        <!-- HOME PAGE -->
+        <section id="home" class="page-content active px-8 lg:px-20">
+            <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-12 py-20">
+                <div class="flex-1 space-y-8">
+                    <h1 class="text-7xl md:text-8xl font-extrabold leading-none tracking-tighter">
+                        CRAFTING <br> <span class="text-slate-300 italic">STORIES.</span>
+                    </h1>
+                    <p class="text-xl text-slate-500 max-w-md">
+                        DSBIL Studio adalah pusat kreatifitas literasi digital dan desain buku masa depan. Kami mengubah ide menjadi karya nyata yang estetik.
+                    </p>
+                    <div class="flex gap-4">
+                        <button onclick="navigateTo('product')" class="px-8 py-4 bg-black text-white rounded-full font-bold shadow-lg hover:shadow-xl transition-all">Lihat Karya</button>
+                        <button onclick="navigateTo('about')" class="px-8 py-4 border border-black rounded-full font-bold hover:bg-black hover:text-white transition-all">Tentang Kami</button>
+                    </div>
+                </div>
+                <div class="flex-1 relative">
+                    <div class="w-full aspect-[4/5] bg-slate-100 rounded-3xl overflow-hidden shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-700">
+                        <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=1000&auto=format&fit=crop" alt="Book Mockup" class="w-full h-full object-cover">
+                    </div>
+                    <div class="absolute -bottom-10 -left-10 bg-white p-6 rounded-2xl shadow-xl hidden lg:block">
+                        <p class="text-xs uppercase tracking-widest text-slate-400 font-bold mb-2">Editor's Choice</p>
+                        <p class="font-bold">Edisi Eksklusif 2024</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT PAGE -->
+        <section id="about" class="page-content px-8 lg:px-20">
+            <div class="max-w-4xl mx-auto py-20 text-center space-y-12">
+                <h2 class="text-5xl font-bold">Filosofi DSBIL</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
+                    <div class="p-8 bg-slate-50 rounded-3xl">
+                        <h3 class="text-xl font-bold mb-4">Visi Kami</h3>
+                        <p class="text-slate-600">Menjadi pionir dalam industri kreatif buku dengan menggabungkan teknologi modern dan sentuhan seni klasik.</p>
+                    </div>
+                    <div class="p-8 bg-slate-50 rounded-3xl">
+                        <h3 class="text-xl font-bold mb-4">Misi Kami</h3>
+                        <p class="text-slate-600">Memberikan ruang bagi penulis dan kreator untuk menerbitkan karya berkualitas tinggi dengan standar internasional.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PRODUCT PAGE -->
+        <section id="product" class="page-content px-8 lg:px-20">
+            <div class="max-w-6xl mx-auto py-20">
+                <div class="flex justify-between items-end mb-12">
+                    <h2 class="text-5xl font-bold">Koleksi Kami</h2>
+                    <p class="text-slate-400">Arsip karya terpilih DSBIL Studio</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Product Item -->
+                    <div class="glass-card p-4 rounded-[2rem]">
+                        <div class="bg-slate-100 rounded-2xl h-80 mb-6 overflow-hidden">
+                            <img src="png2.png" class="w-full h-full object-cover" alt="Product">
+                        </div>
+                        <h3 class="text-xl font-bold">BACK TO HOME</h3>
+                        <p class="text-slate-500 mb-4 text-sm">Kisah Kembali ke Rumah</p>
+                        <span class="font-bold text-lg">Rp 29.000</span>
+                    </div>
+                    <!-- Product Item -->
+                    <div class="glass-card p-4 rounded-[2rem]">
+                        <div class="bg-slate-100 rounded-2xl h-80 mb-6 overflow-hidden">
+                            <img src="png3.png" class="w-full h-full object-cover" alt="Product">
+                        </div>
+                        <h3 class="text-xl font-bold">Janji Palsumu</h3>
+                        <p class="text-slate-500 mb-4 text-sm">Kisah tentang kebenaran dan kebohongan dalam hubungan asmara.</p>
+                        <span class="font-bold text-lg">Rp 19.000</span>
+                    </div>
+                    <!-- Product Item -->
+                    <div class="glass-card p-4 rounded-[2rem]">
+                        <div class="bg-slate-100 rounded-2xl h-80 mb-6 overflow-hidden">
+                            <img src="png4.png" class="w-full h-full object-cover" alt="Product">
+                        </div>
+                        <h3 class="text-xl font-bold">Studio Journal</h3>
+                        <p class="text-slate-500 mb-4 text-sm">Jurnal harian untuk para pemikir kreatif.</p>
+                        <span class="font-bold text-lg">Rp 15.000 ! HARGA SEWAKTU WAKTU AKAN BERUBAH</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TEAM PAGE -->
+        <section id="team" class="page-content px-8 lg:px-20">
+            <div class="max-w-6xl mx-auto py-20">
+                <div class="text-center mb-16">
+                    <h2 class="text-5xl font-bold mb-4">Tim Kreatif</h2>
+                    <p class="text-slate-500">Dibalik layar setiap mahakarya DSBIL</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <!-- Director -->
+                    <div class="text-center group">
+                        <div class="w-full aspect-square bg-slate-100 rounded-full mb-6 overflow-hidden grayscale group-hover:grayscale-0 transition-all">
+                             <img src="png1.png" alt="Director">
+                        </div>
+                        <h3 class="font-bold text-xl uppercase tracking-tighter">Ahmad Fauzan</h3>
+                        <p class="text-slate-400 text-sm">EXECUTIVE DIRECTOR</p>
+                    </div>
+                    <!-- Head of Chief -->
+                    <div class="text-center group">
+                        <div class="w-full aspect-square bg-slate-100 rounded-full mb-6 overflow-hidden grayscale group-hover:grayscale-0 transition-all">
+                            <img src="png5.jpg" alt="Chief">
+                        </div>
+                        <h3 class="font-bold text-xl uppercase tracking-tighter">Ahmad Fauzan</h3>
+                        <p class="text-slate-400 text-sm">HEAD OF CHIEF</p>
+                    </div>
+                    <!-- Lead Designer -->
+                    <div class="text-center group">
+                        <div class="w-full aspect-square bg-slate-100 rounded-full mb-6 overflow-hidden grayscale group-hover:grayscale-0 transition-all">
+                             <img src="png6.png" alt="Designer">
+                        </div>
+                        <h3 class="font-bold text-xl uppercase tracking-tighter">Julian Kaze</h3>
+                        <p class="text-slate-400 text-sm">LEAD DESIGNER</p>
+                    </div>
+                    <!-- Creative Strategist -->
+                    <div class="text-center group">
+                        <div class="w-full aspect-square bg-slate-100 rounded-full mb-6 overflow-hidden grayscale group-hover:grayscale-0 transition-all">
+                            <img src="png7.png" alt="Strategist">
+                        </div>
+                        <h3 class="font-bold text-xl uppercase tracking-tighter">Nadia S.</h3>
+                        <p class="text-slate-400 text-sm">CREATIVE STRATEGIST</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT PAGE -->
+        <section id="contact" class="page-content px-8 lg:px-20">
+            <div class="max-w-4xl mx-auto py-20">
+                <div class="bg-black text-white rounded-[3rem] p-12 md:p-20 relative overflow-hidden">
+                    <div class="relative z-10 space-y-8">
+                        <h2 class="text-5xl font-bold">Mari Mulai <br>Berkolaborasi.</h2>
+                        <p class="text-slate-400 max-w-sm">Punya ide buku atau proyek digital? Hubungi tim kami sekarang juga.</p>
+                        <form class="space-y-4 max-w-md">
+                            <input type="email" placeholder="Email Anda" class="w-full bg-white/10 border border-white/20 rounded-full px-6 py-4 focus:outline-none focus:border-white transition-all">
+                            <textarea placeholder="Pesan" class="w-full bg-white/10 border border-white/20 rounded-3xl px-6 py-4 h-32 focus:outline-none focus:border-white transition-all"></textarea>
+                            <button class="w-full bg-white text-black font-bold py-4 rounded-full hover:bg-slate-200 transition-all">Kirim Pesan</button>
+                        </form>
+                    </div>
+                    <!-- Decorative Circle in Contact -->
+                    <div class="absolute -top-20 -right-20 w-80 h-80 border border-white/10 rounded-full"></div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="py-12 border-t border-slate-100 px-8 text-center text-slate-400 text-sm">
+        <p>&copy; 2024 DSBIL STUDIO. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // --- CUSTOM CURSOR LOGIC ---
+        const cursor = document.getElementById('cursor');
+        const follower = document.getElementById('cursor-follower');
+        
+        document.addEventListener('mousemove', (e) => {
+            gsap.to(cursor, {
+                x: e.clientX - 10,
+                y: e.clientY - 10,
+                duration: 0.1
+            });
+            gsap.to(follower, {
+                x: e.clientX - 20,
+                y: e.clientY - 20,
+                duration: 0.3
+            });
+        });
+
+        // Hover scale for cursor
+        document.querySelectorAll('a, button, .glass-card').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                gsap.to(follower, { scale: 1.5, background: 'rgba(0,0,0,0.05)', duration: 0.3 });
+            });
+            el.addEventListener('mouseleave', () => {
+                gsap.to(follower, { scale: 1, background: 'transparent', duration: 0.3 });
+            });
+        });
+
+        // --- NAVIGATION LOGIC ---
+        function navigateTo(pageId) {
+            const pages = document.querySelectorAll('.page-content');
+            const targetPage = document.getElementById(pageId);
+
+            // Close current active page
+            pages.forEach(page => {
+                if(page.classList.contains('active')) {
+                    gsap.to(page, {
+                        opacity: 0,
+                        y: 20,
+                        duration: 0.4,
+                        onComplete: () => {
+                            page.classList.remove('active');
+                            
+                            // Prepare target page
+                            targetPage.classList.add('active');
+                            gsap.fromTo(targetPage, 
+                                { opacity: 0, y: 20 },
+                                { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }
+                            );
+                        }
+                    });
+                }
+            });
+
+            // Smooth scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // --- BACKGROUND ANIMATION ---
+        gsap.to("#blob-1", {
+            x: '30vw',
+            y: '20vh',
+            duration: 10,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut"
+        });
+
+        gsap.to("#blob-2", {
+            x: '-30vw',
+            y: '-20vh',
+            duration: 12,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut"
+        });
+
+        // Initialize Home Animation
+        window.onload = () => {
+            gsap.from(".nav-link", {
+                y: -20,
+                opacity: 0,
+                duration: 0.8,
+                stagger: 0.1,
+                ease: "power4.out"
+            });
+        };
+    </script>
+</body>
+</html>
